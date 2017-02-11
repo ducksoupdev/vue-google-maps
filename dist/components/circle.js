@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _lodash = require('lodash');
+var _lodash = require('lodash.clone');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -62,7 +62,7 @@ exports.default = {
         return '';
     },
     deferredReady: function deferredReady() {
-        var options = _lodash2.default.clone(this.getPropsValues());
+        var options = (0, _lodash2.default)(this.getPropsValues());
         options.map = this.$map;
         delete options.bounds;
         this.createCircle(options, this.$map);
@@ -76,7 +76,7 @@ exports.default = {
             this.$circleObject = new google.maps.Circle(options);
             // we cant bind bounds because there is no `setBounds` method
             // on the Circle object
-            var boundProps = _lodash2.default.clone(props);
+            var boundProps = (0, _lodash2.default)(props);
             delete boundProps.bounds;
             (0, _propsBinder2.default)(this, this.$circleObject, boundProps);
             (0, _eventsBinder2.default)(this, this.$circleObject, events);

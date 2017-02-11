@@ -1,8 +1,4 @@
-/* vim: set softtabstop=2 shiftwidth=2 expandtab : */
-
 import {DeferredReadyMixin} from '../utils/deferredReady'
-import {DeferredReady} from '../utils/deferredReady.js'
-import Map from './map.vue'
 
 /**
  * @class MapElementMixin @mixins DeferredReadyMixin
@@ -35,7 +31,7 @@ export default {
 
     this.$mapPromise = search.$mapCreated.then((map) => {
       this.$map = map
-    })
+    });
     // FIXME: This is a hack to ensure correct loading
     // when the map has already be instantiated.
     if (search.$mapObject) {

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _lodash = require('lodash');
+var _lodash = require('lodash.mapvalues');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -23,14 +23,6 @@ var _getPropsValuesMixin2 = _interopRequireDefault(_getPropsValuesMixin);
 var _mapElementMixin = require('./mapElementMixin');
 
 var _mapElementMixin2 = _interopRequireDefault(_mapElementMixin);
-
-var _cluster = require('./cluster');
-
-var _cluster2 = _interopRequireDefault(_cluster);
-
-var _assert = require('assert');
-
-var _assert2 = _interopRequireDefault(_assert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -125,7 +117,7 @@ exports.default = {
   deferredReady: function deferredReady() {
     var _this = this;
 
-    var options = _lodash2.default.mapValues(props, function (value, prop) {
+    var options = (0, _lodash2.default)(props, function (value, prop) {
       return _this[prop];
     });
     options.map = this.$map;

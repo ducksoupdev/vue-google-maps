@@ -1,12 +1,13 @@
-import _ from 'lodash';
+import assign from 'lodash.assign';
+import defaults from 'lodash.defaults';
+import omit from 'lodash.omit';
 
 import {loaded} from '../manager.js';
 import {DeferredReadyMixin} from '../utils/deferredReady.js';
 import eventsBinder from '../utils/eventsBinder.js';
 import propsBinder from '../utils/propsBinder.js';
-import {DeferredReady} from '../utils/deferredReady.js'
-import getPropsMixin from '../utils/getPropsValuesMixin.js'
-import mountableMixin from '../utils/mountableMixin.js'
+import getPropsMixin from '../utils/getPropsValuesMixin.js';
+import mountableMixin from '../utils/mountableMixin.js';
 import latlngChangedHandler from '../utils/latlngChangedHandler.js';
 
 const props = {
@@ -58,7 +59,7 @@ const customMethods = {
 };
 
 // Methods is a combination of customMethods and linkedMethods
-const methods = _.assign({}, customMethods);
+const methods = assign({}, customMethods);
 
 export default {
   mixins: [getPropsMixin, DeferredReadyMixin, mountableMixin],
@@ -94,8 +95,8 @@ export default {
       const element = this.$refs['vue-street-view-pano'];
 
       // creating the map
-      const options = _.defaults({},
-          _.omit(this.getPropsValues(), ['options']),
+      const options = defaults({},
+          omit(this.getPropsValues(), ['options']),
           this.options
         );
       console.log(options);
@@ -104,7 +105,7 @@ export default {
 
       // binding properties (two and one way)
       propsBinder(this, this.$panoObject,
-          _.omit(props, ['position', 'zoom']));
+          omit(props, ['position', 'zoom']));
 
       //binding events
       eventsBinder(this, this.$panoObject, events);

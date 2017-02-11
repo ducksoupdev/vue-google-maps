@@ -80,7 +80,7 @@ var DeferredReadyMixin = exports.DeferredReadyMixin = {
   created: function created() {
     var _this = this;
 
-    this.$deferredReadyPromise = new _promise2.default(function (resolve, reject) {
+    this.$deferredReadyPromise = new _promise2.default(function (resolve) {
       _this.$deferredReadyPromiseResolve = resolve;
     });
 

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _lodash = require('lodash');
+var _lodash = require('lodash.clone');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -55,7 +55,7 @@ exports.default = {
     return '';
   },
   deferredReady: function deferredReady() {
-    var options = _lodash2.default.clone(this.getPropsValues());
+    var options = (0, _lodash2.default)(this.getPropsValues());
     options.map = this.$map;
     this.createRectangle(options, this.$map);
   },

@@ -1,5 +1,3 @@
-/* vim: set softtabstop=2 shiftwidth=2 expandtab : */
-
 /**
   * @class Cluster
   * @prop $clusterObject -- Exposes the marker clusterer to
@@ -7,11 +5,11 @@
         extending the class
 **/
 
-import _ from 'lodash';
-import propsBinder from '../utils/propsBinder.js'
+import clone from 'lodash.clone';
+import propsBinder from '../utils/propsBinder.js';
 import MapElementMixin from './mapElementMixin';
-import getPropsValuesMixin from '../utils/getPropsValuesMixin.js'
-import MarkerClusterer from 'marker-clusterer-plus'
+import getPropsValuesMixin from '../utils/getPropsValuesMixin.js';
+import MarkerClusterer from 'marker-clusterer-plus';
 
 const props = {
   maxZoom: {
@@ -45,7 +43,7 @@ export default {
   },
 
   deferredReady () {
-    const options = _.clone(this.getPropsValues());
+    const options = clone(this.getPropsValues());
 
     if (typeof MarkerClusterer === 'undefined') {
       console.error("MarkerClusterer is not installed! require() it or include it from https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js")
@@ -55,7 +53,7 @@ export default {
     this.$clusterObject = new MarkerClusterer(this.$map, [], options);
 
     propsBinder(this, this.$clusterObject, props, {
-      afterModelChanged: (a, v) => {
+      afterModelChanged: () => {
         const oldMarkers = this.$clusterObject.getMarkers();
         this.$clusterObject.clearMarkers();
         this.$clusterObject.addMarkers(oldMarkers);

@@ -1,22 +1,22 @@
 import {load, loaded} from './manager.js';
 import Marker from './components/marker';
-import Cluster from './components/cluster'
-import Polyline from './components/polyline'
-import Polygon from './components/polygon'
-import Circle from './components/circle'
-import Rectangle from './components/rectangle'
-import _ from 'lodash'
+import Cluster from './components/cluster';
+import Polyline from './components/polyline';
+import Polygon from './components/polygon';
+import Circle from './components/circle';
+import Rectangle from './components/rectangle';
+import defaults from 'lodash.defaults';
 
 // Vue component imports
-import InfoWindow from './components/infoWindow.vue'
+import InfoWindow from './components/infoWindow.vue';
 import Map from './components/map.vue';
 import StreetViewPanorama from './components/streetViewPanorama.vue';
-import PlaceInput from './components/placeInput.vue'
-import Autocomplete from './components/autocomplete.vue'
+import PlaceInput from './components/placeInput.vue';
+import Autocomplete from './components/autocomplete.vue';
 
-import MapElementMixin from './components/mapElementMixin'
-import MountableMixin from './utils/mountableMixin'
-import {DeferredReady} from './utils/deferredReady'
+import MapElementMixin from './components/mapElementMixin';
+import MountableMixin from './utils/mountableMixin';
+import {DeferredReady} from './utils/deferredReady';
 
 // export everything
 export {load, loaded, Marker, Cluster, Polyline, Polygon, Circle, Rectangle,
@@ -24,7 +24,7 @@ export {load, loaded, Marker, Cluster, Polyline, Polygon, Circle, Rectangle,
   MountableMixin};
 
 export function install(Vue, options) {
-  options = _.defaults(options, {
+  options = defaults(options, {
     installComponents: true,
   });
 
@@ -36,7 +36,7 @@ export function install(Vue, options) {
     created() {
       this.$gmapDefaultResizeBus = defaultResizeBus;
     }
-  })
+  });
 
   if (options.load) {
     load(options.load);

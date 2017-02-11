@@ -10,8 +10,6 @@ var _typeof3 = _interopRequireDefault(_typeof2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* vim: set softtabstop=2 shiftwidth=2 expandtab : */
-
 var mutatorObservatorConfig = {
   attributes: true,
   childList: true,

@@ -1,12 +1,14 @@
-import _ from 'lodash';
+import clone from 'lodash.clone';
+import omit from 'lodash.omit';
+import assign from 'lodash.assign';
+import fromPairs from 'lodash.frompairs';
 
 import {loaded} from '../manager.js';
 import {DeferredReadyMixin} from '../utils/deferredReady.js';
 import eventsBinder from '../utils/eventsBinder.js';
 import propsBinder from '../utils/propsBinder.js';
-import {DeferredReady} from '../utils/deferredReady.js'
-import getPropsMixin from '../utils/getPropsValuesMixin.js'
-import mountableMixin from '../utils/mountableMixin.js'
+import getPropsMixin from '../utils/getPropsValuesMixin.js';
+import mountableMixin from '../utils/mountableMixin.js';
 import latlngChangedHandler from '../utils/latlngChangedHandler.js';
 
 const props = {
@@ -42,7 +44,9 @@ const props = {
   },
   options: {
     type: Object,
-    default () {return {}}
+    default () {
+      return {}
+    }
   }
 };
 
@@ -62,19 +66,16 @@ const events = [
 ];
 
 // Plain Google Maps methods exposed here for convenience
-const linkedMethods = _([
+const linkedMethods = fromPairs([
   'panBy',
   'panTo',
   'panToBounds',
   'fitBounds'
-])
-  .map(methodName => [methodName, function() {
+]
+  .map(methodName => [methodName, function () {
     if (this.$mapObject)
       this.$mapObject[methodName].apply(this.$mapObject, arguments);
-  }])
-  .fromPairs()
-  .value()
-;
+  }]));
 
 // Other convenience methods exposed by Vue Google Maps
 const customMethods = {
@@ -101,7 +102,7 @@ const customMethods = {
 };
 
 // Methods is a combination of customMethods and linkedMethods
-const methods = _.assign({}, customMethods, linkedMethods);
+const methods = assign({}, customMethods, linkedMethods);
 
 export default {
   mixins: [getPropsMixin, DeferredReadyMixin, mountableMixin],
@@ -136,25 +137,27 @@ export default {
       const element = this.$refs['vue-map'];
 
       // creating the map
-      const copiedData = _.clone(this.getPropsValues());
+      const copiedData = clone(this.getPropsValues());
       delete copiedData.options;
-      const options = _.clone(this.options);
-      _.assign(options, copiedData);
+      const options = clone(this.options);
+      assign(options, copiedData);
       this.$mapObject = new google.maps.Map(element, options);
 
       // binding properties (two and one way)
-      propsBinder(this, this.$mapObject, _.omit(props, ['center', 'zoom', 'bounds']));
+      propsBinder(this, this.$mapObject, omit(props, ['center', 'zoom', 'bounds']));
 
       // manually trigger center and zoom
       this.$mapObject.addListener('center_changed', () => {
         this.$emit('center_changed', this.$mapObject.getCenter())
-      })
+      });
+
       this.$mapObject.addListener('zoom_changed', () => {
         this.$emit('zoom_changed', this.$mapObject.getZoom())
-      })
+      });
+
       this.$mapObject.addListener('bounds_changed', () => {
         this.$emit('bounds_changed', this.$mapObject.getBounds())
-      })
+      });
 
       //binding events
       eventsBinder(this, this.$mapObject, events);
@@ -163,9 +166,9 @@ export default {
 
       return this.$mapCreated;
     })
-    .catch((error) => {
-      throw error;
-    });
+      .catch((error) => {
+        throw error;
+      });
   },
   methods: methods
 }

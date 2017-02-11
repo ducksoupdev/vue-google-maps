@@ -51,7 +51,7 @@ function runHooks(vm) {
       } catch (err) {
         console.error(err.stack);
       }
-    }))
+    }));
     // execute all handlers, expecting them to return promises
     // wait for the promises to complete, before allowing child to execute
   })
@@ -69,9 +69,9 @@ export var DeferredReadyMixin = {
   $deferredReadyAncestor: false,
 
   created() {
-    this.$deferredReadyPromise = new Promise((resolve, reject) => {
+    this.$deferredReadyPromise = new Promise((resolve) => {
       this.$deferredReadyPromiseResolve = resolve;
-    })
+    });
 
     let search = this.$parent;
     while (search) {

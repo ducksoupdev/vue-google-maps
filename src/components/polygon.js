@@ -1,9 +1,11 @@
-import _ from 'lodash';
+import assign from 'lodash.assign';
+import clone from 'lodash.clone';
+import omit from 'lodash.omit';
 
-import eventBinder from '../utils/eventsBinder.js'
-import propsBinder from '../utils/propsBinder.js'
-import MapElementMixin from './mapElementMixin'
-import getPropsValuesMixin from '../utils/getPropsValuesMixin.js'
+import eventBinder from '../utils/eventsBinder.js';
+import propsBinder from '../utils/propsBinder.js';
+import MapElementMixin from './mapElementMixin';
+import getPropsValuesMixin from '../utils/getPropsValuesMixin.js';
 
 const props = {
   draggable: {
@@ -27,7 +29,7 @@ const props = {
     type: Boolean,
     default: false
   }
-}
+};
 
 const events = [
   'click',
@@ -41,7 +43,7 @@ const events = [
   'mouseover',
   'mouseup',
   'rightclick'
-]
+];
 
 export default {
   mixins: [MapElementMixin, getPropsValuesMixin],
@@ -56,9 +58,9 @@ export default {
   },
 
   deferredReady() {
-    const options = _.clone(this.getPropsValues());
+    const options = clone(this.getPropsValues());
     delete options.options;
-    _.assign(options, this.options);
+    assign(options, this.options);
     if (!options.path) {
       delete options.path;
     }
@@ -67,7 +69,7 @@ export default {
     }
     this.$polygonObject = new google.maps.Polygon(options);
 
-    propsBinder(this, this.$polygonObject, _.omit(props, ['path', 'paths']));
+    propsBinder(this, this.$polygonObject, omit(props, ['path', 'paths']));
     eventBinder(this, this.$polygonObject, events);
 
     var clearEvents = () => {};
@@ -82,19 +84,19 @@ export default {
 
         const updatePaths = () => {
           this.$emit('paths_changed', this.$polygonObject.getPaths())
-        }
+        };
         const eventListeners = [];
 
         const mvcArray = this.$polygonObject.getPaths();
-        for (let i=0; i<mvcArray.getLength(); i++) {
+        for (let i = 0; i < mvcArray.getLength(); i++) {
           let mvcPath = mvcArray.getAt(i);
-          eventListeners.push([mvcPath, mvcPath.addListener('insert_at', updatePaths)])
-          eventListeners.push([mvcPath, mvcPath.addListener('remove_at', updatePaths)])
-          eventListeners.push([mvcPath, mvcPath.addListener('set_at', updatePaths)])
+          eventListeners.push([mvcPath, mvcPath.addListener('insert_at', updatePaths)]);
+          eventListeners.push([mvcPath, mvcPath.addListener('remove_at', updatePaths)]);
+          eventListeners.push([mvcPath, mvcPath.addListener('set_at', updatePaths)]);
         }
-        eventListeners.push([mvcArray, mvcArray.addListener('insert_at', updatePaths)])
-        eventListeners.push([mvcArray, mvcArray.addListener('remove_at', updatePaths)])
-        eventListeners.push([mvcArray, mvcArray.addListener('set_at', updatePaths)])
+        eventListeners.push([mvcArray, mvcArray.addListener('insert_at', updatePaths)]);
+        eventListeners.push([mvcArray, mvcArray.addListener('remove_at', updatePaths)]);
+        eventListeners.push([mvcArray, mvcArray.addListener('set_at', updatePaths)]);
 
         clearEvents = () => {
           eventListeners.map(([obj, listenerHandle]) =>
@@ -117,11 +119,11 @@ export default {
 
         const updatePaths = () => {
           this.$emit('path_changed', this.$polygonObject.getPath())
-        }
+        };
 
-        eventListeners.push([mvcPath, mvcPath.addListener('insert_at', updatePaths)])
-        eventListeners.push([mvcPath, mvcPath.addListener('remove_at', updatePaths)])
-        eventListeners.push([mvcPath, mvcPath.addListener('set_at', updatePaths)])
+        eventListeners.push([mvcPath, mvcPath.addListener('insert_at', updatePaths)]);
+        eventListeners.push([mvcPath, mvcPath.addListener('remove_at', updatePaths)]);
+        eventListeners.push([mvcPath, mvcPath.addListener('set_at', updatePaths)]);
 
         clearEvents = () => {
           eventListeners.map(([obj, listenerHandle]) =>

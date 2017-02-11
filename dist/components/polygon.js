@@ -4,17 +4,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
-
-var _getIterator3 = _interopRequireDefault(_getIterator2);
-
 var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _lodash = require('lodash');
+var _lodash = require('lodash.assign');
 
 var _lodash2 = _interopRequireDefault(_lodash);
+
+var _lodash3 = require('lodash.clone');
+
+var _lodash4 = _interopRequireDefault(_lodash3);
+
+var _lodash5 = require('lodash.omit');
+
+var _lodash6 = _interopRequireDefault(_lodash5);
 
 var _eventsBinder = require('../utils/eventsBinder.js');
 
@@ -75,9 +79,9 @@ exports.default = {
   deferredReady: function deferredReady() {
     var _this = this;
 
-    var options = _lodash2.default.clone(this.getPropsValues());
+    var options = (0, _lodash4.default)(this.getPropsValues());
     delete options.options;
-    _lodash2.default.assign(options, this.options);
+    (0, _lodash2.default)(options, this.options);
     if (!options.path) {
       delete options.path;
     }
@@ -86,7 +90,7 @@ exports.default = {
     }
     this.$polygonObject = new google.maps.Polygon(options);
 
-    (0, _propsBinder2.default)(this, this.$polygonObject, _lodash2.default.omit(props, ['path', 'paths']));
+    (0, _propsBinder2.default)(this, this.$polygonObject, (0, _lodash6.default)(props, ['path', 'paths']));
     (0, _eventsBinder2.default)(this, this.$polygonObject, events);
 
     var clearEvents = function clearEvents() {};
@@ -106,33 +110,12 @@ exports.default = {
           var eventListeners = [];
 
           var mvcArray = _this.$polygonObject.getPaths();
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
-
-          try {
-            for (var _iterator = (0, _getIterator3.default)(mvcArray), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var mvcPath = _step.value;
-
-              eventListeners.push([mvcPath, mvcPath.addListener('insert_at', updatePaths)]);
-              eventListeners.push([mvcPath, mvcPath.addListener('remove_at', updatePaths)]);
-              eventListeners.push([mvcPath, mvcPath.addListener('set_at', updatePaths)]);
-            }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
+          for (var i = 0; i < mvcArray.getLength(); i++) {
+            var mvcPath = mvcArray.getAt(i);
+            eventListeners.push([mvcPath, mvcPath.addListener('insert_at', updatePaths)]);
+            eventListeners.push([mvcPath, mvcPath.addListener('remove_at', updatePaths)]);
+            eventListeners.push([mvcPath, mvcPath.addListener('set_at', updatePaths)]);
           }
-
           eventListeners.push([mvcArray, mvcArray.addListener('insert_at', updatePaths)]);
           eventListeners.push([mvcArray, mvcArray.addListener('remove_at', updatePaths)]);
           eventListeners.push([mvcArray, mvcArray.addListener('set_at', updatePaths)]);
@@ -149,7 +132,8 @@ exports.default = {
         })();
       }
     }, {
-      deep: this.deepWatch
+      deep: this.deepWatch,
+      immediate: true
     });
 
     this.$watch('path', function (path) {
@@ -182,7 +166,8 @@ exports.default = {
         })();
       }
     }, {
-      deep: this.deepWatch
+      deep: this.deepWatch,
+      immediate: true
     });
 
     // Display the map

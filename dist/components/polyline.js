@@ -8,9 +8,17 @@ var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _lodash = require('lodash');
+var _lodash = require('lodash.assign');
 
 var _lodash2 = _interopRequireDefault(_lodash);
+
+var _lodash3 = require('lodash.clone');
+
+var _lodash4 = _interopRequireDefault(_lodash3);
+
+var _lodash5 = require('lodash.omit');
+
+var _lodash6 = _interopRequireDefault(_lodash5);
 
 var _eventsBinder = require('../utils/eventsBinder.js');
 
@@ -68,13 +76,13 @@ exports.default = {
   deferredReady: function deferredReady() {
     var _this = this;
 
-    var options = _lodash2.default.clone(this.getPropsValues());
+    var options = (0, _lodash4.default)(this.getPropsValues());
     delete options.options;
-    _lodash2.default.assign(options, this.options);
+    (0, _lodash2.default)(options, this.options);
     this.$polylineObject = new google.maps.Polyline(options);
     this.$polylineObject.setMap(this.$map);
 
-    (0, _propsBinder2.default)(this, this.$polylineObject, _lodash2.default.omit(props, ['deepWatch', 'path']));
+    (0, _propsBinder2.default)(this, this.$polylineObject, (0, _lodash6.default)(props, ['deepWatch', 'path']));
     (0, _eventsBinder2.default)(this, this.$polylineObject, events);
 
     var clearEvents = function clearEvents() {};

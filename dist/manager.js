@@ -19,11 +19,9 @@ var _promise2 = _interopRequireDefault(_promise);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* vim: set softtabstop=2 shiftwidth=2 expandtab : */
-
 var setUp = false;
 
-var loaded = exports.loaded = new _promise2.default(function (resolve, reject) {
+var loaded = exports.loaded = new _promise2.default(function (resolve) {
   window['vueGoogleMapsInit'] = resolve;
 });
 

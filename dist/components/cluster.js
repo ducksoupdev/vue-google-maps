@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _lodash = require('lodash');
+var _lodash = require('lodash.clone');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -43,14 +43,12 @@ var props = {
     type: Array,
     twoWay: false
   }
-}; /* vim: set softtabstop=2 shiftwidth=2 expandtab : */
-
-/**
-  * @class Cluster
-  * @prop $clusterObject -- Exposes the marker clusterer to
-        descendent Marker classes. Override this if you area
-        extending the class
-**/
+}; /**
+     * @class Cluster
+     * @prop $clusterObject -- Exposes the marker clusterer to
+           descendent Marker classes. Override this if you area
+           extending the class
+   **/
 
 exports.default = {
   mixins: [_mapElementMixin2.default, _getPropsValuesMixin2.default],
@@ -63,7 +61,7 @@ exports.default = {
   deferredReady: function deferredReady() {
     var _this = this;
 
-    var options = _lodash2.default.clone(this.getPropsValues());
+    var options = (0, _lodash2.default)(this.getPropsValues());
 
     if (typeof _markerClustererPlus2.default === 'undefined') {
       console.error("MarkerClusterer is not installed! require() it or include it from https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js");
@@ -73,7 +71,7 @@ exports.default = {
     this.$clusterObject = new _markerClustererPlus2.default(this.$map, [], options);
 
     (0, _propsBinder2.default)(this, this.$clusterObject, props, {
-      afterModelChanged: function afterModelChanged(a, v) {
+      afterModelChanged: function afterModelChanged() {
         var oldMarkers = _this.$clusterObject.getMarkers();
         _this.$clusterObject.clearMarkers();
         _this.$clusterObject.addMarkers(oldMarkers);

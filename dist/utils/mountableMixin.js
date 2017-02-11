@@ -45,7 +45,7 @@ exports.default = {
   },
 
   watch: {
-    resizeBus: function resizeBus(newVal, oldVal) {
+    resizeBus: function resizeBus(newVal) {
       this.$data._actualResizeBus = newVal;
     },
     '$data._actualResizeBus': function $data_actualResizeBus(newVal, oldVal) {

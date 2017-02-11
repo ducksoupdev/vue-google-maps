@@ -8,9 +8,21 @@ var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _lodash = require('lodash');
+var _lodash = require('lodash.clone');
 
 var _lodash2 = _interopRequireDefault(_lodash);
+
+var _lodash3 = require('lodash.omit');
+
+var _lodash4 = _interopRequireDefault(_lodash3);
+
+var _lodash5 = require('lodash.assign');
+
+var _lodash6 = _interopRequireDefault(_lodash5);
+
+var _lodash7 = require('lodash.frompairs');
+
+var _lodash8 = _interopRequireDefault(_lodash7);
 
 var _manager = require('../manager.js');
 
@@ -80,11 +92,11 @@ var props = {
 var events = ['click', 'dblclick', 'drag', 'dragend', 'dragstart', 'idle', 'mousemove', 'mouseout', 'mouseover', 'resize', 'rightclick', 'tilesloaded'];
 
 // Plain Google Maps methods exposed here for convenience
-var linkedMethods = (0, _lodash2.default)(['panBy', 'panTo', 'panToBounds', 'fitBounds']).map(function (methodName) {
+var linkedMethods = (0, _lodash8.default)(['panBy', 'panTo', 'panToBounds', 'fitBounds'].map(function (methodName) {
   return [methodName, function () {
     if (this.$mapObject) this.$mapObject[methodName].apply(this.$mapObject, arguments);
   }];
-}).fromPairs().value();
+}));
 
 // Other convenience methods exposed by Vue Google Maps
 var customMethods = {
@@ -111,7 +123,7 @@ var customMethods = {
 };
 
 // Methods is a combination of customMethods and linkedMethods
-var methods = _lodash2.default.assign({}, customMethods, linkedMethods);
+var methods = (0, _lodash6.default)({}, customMethods, linkedMethods);
 
 exports.default = {
   mixins: [_getPropsValuesMixin2.default, _deferredReady.DeferredReadyMixin, _mountableMixin2.default],
@@ -151,22 +163,25 @@ exports.default = {
       var element = _this2.$refs['vue-map'];
 
       // creating the map
-      var copiedData = _lodash2.default.clone(_this2.getPropsValues());
+      var copiedData = (0, _lodash2.default)(_this2.getPropsValues());
       delete copiedData.options;
-      var options = _lodash2.default.clone(_this2.options);
-      _lodash2.default.assign(options, copiedData);
+      var options = (0, _lodash2.default)(_this2.options);
+      (0, _lodash6.default)(options, copiedData);
       _this2.$mapObject = new google.maps.Map(element, options);
 
       // binding properties (two and one way)
-      (0, _propsBinder2.default)(_this2, _this2.$mapObject, _lodash2.default.omit(props, ['center', 'zoom', 'bounds']));
+      (0, _propsBinder2.default)(_this2, _this2.$mapObject, (0, _lodash4.default)(props, ['center', 'zoom', 'bounds']));
 
       // manually trigger center and zoom
       _this2.$mapObject.addListener('center_changed', function () {
         _this2.$emit('center_changed', _this2.$mapObject.getCenter());
-        _this2.$emit('bounds_changed', _this2.$mapObject.getBounds());
       });
+
       _this2.$mapObject.addListener('zoom_changed', function () {
         _this2.$emit('zoom_changed', _this2.$mapObject.getZoom());
+      });
+
+      _this2.$mapObject.addListener('bounds_changed', function () {
         _this2.$emit('bounds_changed', _this2.$mapObject.getBounds());
       });
 

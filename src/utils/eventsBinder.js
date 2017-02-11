@@ -1,9 +1,7 @@
-/* vim: set softtabstop=2 shiftwidth=2 expandtab : */
-
-import _ from 'lodash'
+import forEach from 'lodash.foreach'
 
 export default (vueElement, googleMapObject, events) => {
-  _.forEach(events, (eventName) => {
+  forEach(events, (eventName) => {
     const exposedName = eventName;
     googleMapObject.addListener(eventName, (ev) => {
       vueElement.$emit(exposedName, ev);

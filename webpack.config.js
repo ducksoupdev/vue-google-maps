@@ -1,45 +1,41 @@
-/* vim: set softtabstop=2 shiftwidth=2 expandtab : */
 var webpack = require('webpack');
-var path = require('path')
-var _ = require('lodash')
+var path = require('path');
+var clone = require('lodash.clone');
 
 var baseConfig = {
   entry: [
     path.resolve('./src/main.js')
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.vue$/,
-        loader: 'vue'
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,
-        loader: 'babel',
-        exclude: /node_modules/
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          presets: ['es2015', 'stage-0'],
+          plugins: ['transform-runtime']
+        }
       },
       {
         // edit this for additional asset file types
         test: /\.(png|jpg|gif)$/,
-        loader: 'file?name=[name].[ext]?[hash]'
+        loader: 'file-loader?name=[name].[ext]?[hash]'
       }
     ],
-  },
-  // example: if you wish to apply custom babel options
-  // instead of using vue-loader's default:
-  babel: {
-    presets: ['es2015', 'stage-0'],
-    plugins: ['transform-runtime']
   }
-}; /* baseConfig */
+};
 
 /**
  * Web config uses a global Vue and Lodash object.
  * */
-var webConfig = _.clone(baseConfig);
+var webConfig = clone(baseConfig);
 webConfig.externals = {
   vue: 'Vue',
-  lodash: '_',
   'marker-clusterer-plus': 'MarkerClusterer'
 };
 webConfig.output = {
@@ -67,7 +63,7 @@ if (process.env.NODE_ENV === 'production') {
             warnings: false
           }
         }),
-        new webpack.optimize.OccurenceOrderPlugin()
+        new webpack.optimize.OccurrenceOrderPlugin()
       ]
   }
 } else {

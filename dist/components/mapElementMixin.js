@@ -6,14 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _deferredReady = require('../utils/deferredReady');
 
-var _deferredReady2 = require('../utils/deferredReady.js');
-
-var _map = require('./map.vue');
-
-var _map2 = _interopRequireDefault(_map);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * @class MapElementMixin @mixins DeferredReadyMixin
  *
@@ -74,4 +66,4 @@ exports.default = {
     }
   }
 
-}; /* vim: set softtabstop=2 shiftwidth=2 expandtab : */
+};

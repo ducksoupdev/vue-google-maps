@@ -1,10 +1,8 @@
-/* vim: set softtabstop=2 shiftwidth=2 expandtab : */
-
 var setUp = false;
 
-export const loaded = new Promise((resolve, reject) => {
+export const loaded = new Promise((resolve) => {
   window['vueGoogleMapsInit'] = resolve;
-})
+});
 
 /**
  * @param apiKey    API Key, or object with the URL parameters. For example
@@ -88,4 +86,4 @@ export const load = (apiKey, version, libraries, loadCn) => {
   } else {
     throw new Error('You already started the loading of google maps');
   }
-}
+};

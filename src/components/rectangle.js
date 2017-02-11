@@ -1,9 +1,9 @@
-import _ from 'lodash';
+import clone from 'lodash.clone';
 
-import eventBinder from '../utils/eventsBinder.js'
-import propsBinder from '../utils/propsBinder.js'
+import eventBinder from '../utils/eventsBinder.js';
+import propsBinder from '../utils/propsBinder.js';
 import MapElementMixin from './mapElementMixin';
-import getPropsValuesMixin from '../utils/getPropsValuesMixin.js'
+import getPropsValuesMixin from '../utils/getPropsValuesMixin.js';
 
 const props = {
   bounds: {
@@ -22,7 +22,7 @@ const props = {
     type: Object,
     twoWay: false
   }
-}
+};
 
 const events = [
   'click',
@@ -36,7 +36,7 @@ const events = [
   'mouseover',
   'mouseup',
   'rightclick'
-]
+];
 
 export default {
   mixins: [MapElementMixin, getPropsValuesMixin],
@@ -47,7 +47,7 @@ export default {
   },
 
   deferredReady() {
-    const options = _.clone(this.getPropsValues());
+    const options = clone(this.getPropsValues());
     options.map = this.$map;
     this.createRectangle(options, this.$map);
   },

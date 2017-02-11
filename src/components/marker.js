@@ -1,10 +1,8 @@
-import _ from 'lodash';
+import mapValues from 'lodash.mapvalues';
 import eventsBinder from '../utils/eventsBinder.js';
 import propsBinder from '../utils/propsBinder.js';
 import getPropsValuesMixin from '../utils/getPropsValuesMixin.js'
 import MapElementMixin from './mapElementMixin';
-import Clusterer from './cluster';
-import assert from 'assert';
 
 const props = {
   animation: {
@@ -26,13 +24,12 @@ const props = {
   draggable: {
     type: Boolean,
     twoWay: true,
-  default: false
+    default: false
   },
   icon: {
     twoWay: true
   },
-  label: {
-  },
+  label: {},
   opacity: {
     type: Number,
     default: 1
@@ -102,7 +99,7 @@ export default {
 
   destroyed() {
     if (!this.$markerObject)
-        return;
+      return;
 
     if (this.$clusterObject) {
       this.$clusterObject.removeMarker(this.$markerObject);
@@ -113,7 +110,7 @@ export default {
   },
 
   deferredReady() {
-    const options = _.mapValues(props, (value, prop) => this[prop]);
+    const options = mapValues(props, (value, prop) => this[prop]);
     options.map = this.$map;
 
     // search ancestors for cluster object
