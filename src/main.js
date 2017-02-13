@@ -5,7 +5,10 @@ import Polyline from './components/polyline';
 import Polygon from './components/polygon';
 import Circle from './components/circle';
 import Rectangle from './components/rectangle';
+
+import forEach from 'lodash.foreach';
 import defaults from 'lodash.defaults';
+import pick from 'utils/pick';
 
 // Vue component imports
 import InfoWindow from './components/infoWindow.vue';
@@ -22,6 +25,20 @@ import {DeferredReady} from './utils/deferredReady';
 export {load, loaded, Marker, Cluster, Polyline, Polygon, Circle, Rectangle,
   InfoWindow, Map, PlaceInput, MapElementMixin, Autocomplete,
   MountableMixin};
+
+const allComponents = {
+  'GmapMap': Map,
+  'GmapMarker': Marker,
+  'GmapCluster': Cluster,
+  'GmapInfoWindow': InfoWindow,
+  'GmapPolyline': Polyline,
+  'GmapPolygon': Polygon,
+  'GmapCircle': Circle,
+  'GmapRectangle': Rectangle,
+  'GmapAutocomplete': Autocomplete,
+  'GmapPlaceInput': PlaceInput,
+  'GmapStreetViewPanorama': StreetViewPanorama
+};
 
 export function install(Vue, options) {
   options = defaults(options, {
@@ -43,16 +60,10 @@ export function install(Vue, options) {
   }
 
   if (options.installComponents) {
-    Vue.component('GmapMap', Map);
-    Vue.component('GmapMarker', Marker);
-    Vue.component('GmapCluster', Cluster);
-    Vue.component('GmapInfoWindow', InfoWindow);
-    Vue.component('GmapPolyline', Polyline);
-    Vue.component('GmapPolygon', Polygon);
-    Vue.component('GmapCircle', Circle);
-    Vue.component('GmapRectangle', Rectangle);
-    Vue.component('GmapAutocomplete', Autocomplete);
-    Vue.component('GmapPlaceInput', PlaceInput);
-    Vue.component('GmapStreetViewPanorama', StreetViewPanorama);
+    let componentsToLoad = allComponents;
+    if (Array.isArray(options.installComponents)) {
+      componentsToLoad = pick(allComponents, options.installComponents);
+    }
+    forEach(componentsToLoad, (v, k) => Vue.component(k, v));
   }
 }

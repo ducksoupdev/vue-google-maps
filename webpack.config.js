@@ -17,7 +17,7 @@ var baseConfig = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
-          presets: ['es2015', 'stage-0'],
+          presets: ['es2015-webpack', 'stage-0'],
           plugins: ['transform-runtime']
         }
       },

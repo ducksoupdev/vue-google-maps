@@ -1,6 +1,6 @@
 import clone from 'lodash.clone';
 import defaults from 'lodash.defaults';
-import pickBy from 'lodash.pickby';
+import forEach from 'lodash.foreach';
 import omit from 'lodash.omit';
 import propsBinder from '../utils/propsBinder.js';
 import downArrowSimulator from '../utils/simulateArrowDown.js';
@@ -54,11 +54,14 @@ export default {
       assert(typeof(google.maps.places.Autocomplete) === 'function',
         "google.maps.places.Autocomplete is undefined. Did you add 'places' to libraries when loading Google Maps?");
 
-      const finalOptions = pickBy(defaults(
+      let finalOptions = {};
+      forEach(defaults(
         {},
         options.options,
         omit(options, ['options', 'selectFirstOnEnter', 'value', 'place', 'placeholder'])
-      ), (v, k) => v !== undefined);
+      ), (v, k) => {
+        if (v !== undefined) finalOptions[k] = v;
+      });
 
       // Component restrictions is rather particular. Undefined not allowed
       this.$watch('componentRestrictions', v => {

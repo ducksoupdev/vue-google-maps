@@ -57,7 +57,7 @@ const props = {
     twoWay: true,
     default: true,
   }
-}
+};
 
 const events = [
   'click',
