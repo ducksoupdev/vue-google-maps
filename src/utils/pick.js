@@ -1,5 +1,5 @@
 export default function(obj, arr) {
   var newObj = {};
-  arr.forEach((key) => obj[key] = obj[key]);
+  arr.forEach((key) => newObj[key] = obj[key]);
   return newObj;
 };

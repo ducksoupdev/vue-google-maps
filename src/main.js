@@ -8,7 +8,7 @@ import Rectangle from './components/rectangle';
 
 import forEach from 'lodash.foreach';
 import defaults from 'lodash.defaults';
-import pick from 'utils/pick';
+import pick from './utils/pick';
 
 // Vue component imports
 import InfoWindow from './components/infoWindow.vue';
